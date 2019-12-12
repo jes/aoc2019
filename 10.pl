@@ -22,16 +22,21 @@ while (<>) {
 }
 
 my $best = 0;
+my ($bx, $by);
 
 for my $y (0 .. $maxy) {
     for my $x (0 .. $maxx) {
         next if $map{"$x,$y"} ne '#';
         my $n = count_visible_asteroids($x,$y);
-        $best = $n if $n > $best;
+        if ($n > $best) {
+            $best = $n;
+            $bx = $x;
+            $by = $y;
+        }
     }
 }
 
-print "$best\n";
+print "$best ($bx,$by)\n";
 
 sub count_visible_asteroids {
     my ($ox, $oy) = @_;
