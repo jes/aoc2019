@@ -26,7 +26,25 @@ while (<>) {
     };
 }
 
-print ore_required(3848999, 'FUEL'), "\n";
+my $min = 0;
+my $max = 210000000;
+
+my $onetrill = 1_000_000_000_000;
+
+while ($min < $max) {
+    my $mid = int(($min+$max)/2);
+    %spare = ();
+    my $o = ore_required($mid, 'FUEL');
+    if ($o > $onetrill) {
+        $max = $mid - 1;
+    } elsif ($o < $onetrill) {
+        $min = $mid+1;
+    } else {
+        print "$mid\n";
+    }
+}
+
+print "$min,$max\n";
 
 sub ore_required {
     my ($count, $type) = @_;
@@ -49,7 +67,6 @@ sub ore_required {
         my ($n, $intype) = @$in;
         my $o = ore_required($n*$want_generate, $intype);
         $ore += $o;
-        print "Made " . ($want_generate*$n) . " $intype out of $o ORE\n";
     }
 
     $spare{$type} = $needfor{$type}{count}*$want_generate - $count;
