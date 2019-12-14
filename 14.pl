@@ -26,7 +26,7 @@ while (<>) {
     };
 }
 
-print ore_required(3848999, 'FUEL'), "\n";
+print ore_required(1, 'FUEL'), "\n";
 
 sub ore_required {
     my ($count, $type) = @_;
