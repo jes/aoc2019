@@ -1,0 +1,45 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+my $y = 0;
+
+my %map;
+
+my $sum = 0;
+
+my $maxx = 0;
+my $maxy = 0;
+
+while (<>) {
+    chomp;
+    my @c = split //;
+
+    for my $x (0 .. $#c) {
+        $map{"$x,$y"} = $c[$x];
+
+        $maxx = $x if $x > $maxx;
+    }
+
+    $y++;
+    $maxy = $y if $y > $maxy;
+}
+
+my @xd = (0,1,0,-1);
+my @yd = (1,0,-1,0);
+
+for $y (1..$maxy-1) {
+    for my $x (1..$maxx-1) {
+        next unless $map{"$x,$y"} eq '#';
+        my $is_inters = 1;
+        for my $d (0..3) {
+            my $nx = $x + $xd[$d];
+            my $ny = $y + $yd[$d];
+            $is_inters = $is_inters && $map{"$nx,$ny"} eq '#';
+        }
+        $sum += $x*$y if $is_inters;
+    }
+}
+
+print "$sum\n";
